@@ -1,0 +1,37 @@
+Documentation of the Bundled Matching Extension
+
+This Folder contains all the elements needed for the Bundled Matching.
+The main parts of this extensions are: java_interface.py, matching.py, models.py
+
+java_interface.py is responsible for the communication of the matching system with the
+java implementation of the MAXCU-algorithm. The java_interface.py script creates
+the needed data structures for the MAXCU-algorithm with the data from the matching system.
+It also initiates the computation of the matching and requests the computed solution.
+//Diagram of computation
+Necessary Information for running the MAXCU-algorithm : the result of the Probabilistic Serial
+Matching as an Vector. The structure of the vector is as follows: 
+if x_s1_b1 is the solution for the allocation of student 1(with students from 1 to n) to bundle 1(with bundles from 1 to m)
+then x = (x_s1_b1,x_s1_b2,...,x_s1_bn,x_s2_b1,x_s2_b2,...,x_s2_bn,...,x_sj_b_1,x_sj_b_2,...
+x_sj_bn,...,x_sm_b1,x_sm_b2,...x_sm_bn) is the solution of the Probabilistic Serial. x has the length n*m, where n is the amount of students and m is the amount of bundles. The amount of bundles could get really large as it is the power set of the courses.
+*Example for the size of vector x: if the amount of students is 500, every student has a preference list of size 10, then there could be maximally 500*10 bundles if all bundles are  different. So vector x has the size of 500*10*500 = 2.500.000 .*
+java_interface.py also sends the preference list of every student and every block of the matching.
+
+
+matching.py is the main part of the extension.
+The computation of the Probabilistic serial is done in this script.
+For further information about the Probabilstic serial see https://web.ics.purdue.edu/~nguye161/one-sided.pdf.
+The solution of the probabilstic serial as a single vector can be requested with the
+get_matching_bsd_vector-Method.
+Furthermore the Bundled Random Serial Dictatorship (see https://conferences.tu-ilmenau.de/frontend/file.php?id=13127&hash=f944d70aa2770bab37a0d3c405e6264a)
+is implemented in the Matching Class. This algorithm provides already a implementable solution.
+
+models.py include all the database object required.
+These are:
+Block - Time and Capacity of every tutorial session of a given course
+Instance - A wrapper for the matching instance. Every block,course and prefrow knows his instance
+Student - wrapper of the TUMUser of /app/models/tum_user.py
+Bundle - Represents a bundle with its order
+Course - Courses available for the matching, a course has several blocks which can be matched
+
+
+
